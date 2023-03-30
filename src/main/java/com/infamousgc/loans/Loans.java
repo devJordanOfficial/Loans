@@ -7,11 +7,13 @@ import me.arcaniax.hdb.api.HeadDatabaseAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.infamousmc.ranktree.RankTreeAPI;
 
 public final class Loans extends JavaPlugin {
 
     private static Economy economy = null;
     public static HeadDatabaseAPI hdb;
+    public RankTreeAPI rankTreeAPI;
 
     @Override
     public void onEnable() {
@@ -30,6 +32,8 @@ public final class Loans extends JavaPlugin {
             this.getPluginLoader().disablePlugin(this);
             return;
         }
+
+        rankTreeAPI = new RankTreeAPI();
     }
 
     private boolean setupEconomy() {

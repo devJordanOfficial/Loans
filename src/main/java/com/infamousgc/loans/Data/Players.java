@@ -1,5 +1,6 @@
 package com.infamousgc.loans.Data;
 
+import com.infamousgc.loans.Loans;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

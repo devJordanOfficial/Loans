@@ -1,7 +1,10 @@
 package com.infamousgc.loans.Data;
 
+import com.infamousgc.loans.Loans;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.infamousmc.ranktree.Data.Rank;
+import org.infamousmc.ranktree.Main;
 import org.infamousmc.ranktree.RankTreeAPI;
 
 import java.text.DecimalFormat;
@@ -10,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PlayerData {
+
+    Loans plugin;
 
     private UUID owner;
     private boolean hasLoan = false;
@@ -22,6 +27,7 @@ public class PlayerData {
     private LocalDateTime createdAt;
 
     public PlayerData(UUID owner) {
+        this.plugin = JavaPlugin.getPlugin(Loans.class);
         this.owner = owner;
     }
 
@@ -59,7 +65,7 @@ public class PlayerData {
     }
 
     public double getLimit() {
-        return RankTreeAPI.getRankCost(Rank.getNextRank(Bukkit.getPlayer(owner))) / 2;
+        return plugin.rankTreeAPI.getRankCost(Rank.getNextRank(Bukkit.getPlayer(owner))) / 2;
     }
 
 }
