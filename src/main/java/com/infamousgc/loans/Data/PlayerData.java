@@ -21,6 +21,10 @@ public class PlayerData {
     private int periodLength;
     private LocalDateTime createdAt;
 
+    public PlayerData(UUID owner) {
+        this.owner = owner;
+    }
+
     public void createLoan(LoanType type, double principal) {
         this.type = type;
         this.principal = principal;
@@ -55,8 +59,7 @@ public class PlayerData {
     }
 
     public double getLimit() {
-        RankTreeAPI api = new RankTreeAPI();
-        return api.getRankCost(Rank.getNextRank(Bukkit.getPlayer(owner))) / 2;
+        return RankTreeAPI.getRankCost(Rank.getNextRank(Bukkit.getPlayer(owner))) / 2;
     }
 
 }

@@ -31,7 +31,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.16-R0.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:1.33" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.MilkBowl:VaultAPI:1.7.1" level="project" />
-    <orderEntry type="library" name="Maven: com.infamousgc:RankTree:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.infamousgc:RankTree:1.1.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.arcaniax:HeadDatabase-API:1.3.1" level="project" />
   </component>
 </module>

@@ -49,6 +49,6 @@ public final class Players {
 
     // Create a PlayerData object for the player and cache it
     private static void createData(UUID uuid) {
-        players.put(uuid, new PlayerData());
+        players.put(uuid, new PlayerData(uuid));
     }
 }
