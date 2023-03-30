@@ -1,0 +1,12 @@
+name: Loans
+version: '${project.version}'
+main: com.infamousgc.loans.Loans
+api-version: 1.19
+
+softdepend:
+  - Vault
+  - RankTree
+
+commands:
+  Loans:
+    aliases: [loan]
