@@ -3,7 +3,9 @@ package com.infamousgc.loans.Data;
 import com.infamousgc.loans.Loans;
 import org.bukkit.entity.Player;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,6 +29,11 @@ public final class Players {
         return players.get(player.getUniqueId());
     }
 
+    public static void add(UUID owner, boolean hasLoan, LoanType plan, double principal, LocalDateTime createdAt, double balance) {
+        PlayerData data = new PlayerData(owner, hasLoan, plan, principal, createdAt, balance);
+        players.put(owner, data);
+    }
+
     /**
      * Obtain the playerdata for the given UUID. Will create data if none exists.
      *
@@ -38,6 +45,10 @@ public final class Players {
             createData(uuid);
 
         return players.get(uuid);
+    }
+
+    public static Map<UUID, PlayerData> getList() {
+        return players;
     }
 
     // Check if the player has a PlayerData object or not

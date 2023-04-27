@@ -1,0 +1,15 @@
+#################################################################
+###                                                           ###
+###                        Loans Config                       ###
+###                           v1.0.0                          ###
+###                                                           ###
+#################################################################
+
+# STORAGE SETTINGS
+# What are the login credentials for your mysql host? This is where all loan data will be stored.
+mysql:
+  host:
+  port:
+  database:
+  username:
+  password:

@@ -3,6 +3,7 @@ package com.infamousgc.loans.Utilities;
 import net.md_5.bungee.api.ChatColor;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,6 +76,11 @@ public class Formatter {
 
     private static boolean isFormatCode(char ch) {
         return ch == 'k' || ch == 'l' || ch == 'm' || ch == 'n' || ch == 'o';
+    }
+
+    public static String formatNumber(double number) {
+        DecimalFormat df = new DecimalFormat("#,###.##");
+        return df.format(number);
     }
 
 }
