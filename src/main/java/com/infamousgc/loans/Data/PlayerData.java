@@ -37,6 +37,7 @@ public class PlayerData {
     }
 
     public PlayerData(UUID owner, boolean hasLoan, Plan plan, double principal, LocalDateTime createdAt, double balance) {
+        this.plugin = JavaPlugin.getPlugin(Loans.class);
         this.owner = owner;
         this.hasLoan = hasLoan;
         if (hasLoan) {

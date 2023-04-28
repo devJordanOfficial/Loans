@@ -3,6 +3,8 @@ package com.infamousgc.loans.Commands;
 import com.infamousgc.loans.Interface.Main;
 import com.infamousgc.loans.Loans;
 import com.infamousgc.loans.Utilities.Error;
+import com.infamousgc.loans.Utilities.Formatter;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,40 +20,29 @@ public class SlashLoans implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Error.isConsole());
+
+        if (!sender.hasPermission("loans.use")) {
+            sender.sendMessage(Formatter.parse("&c&lOops! &7You do not have the permission &cloans.use&7!"));
             return true;
         }
 
-//        ((Player) sender).getInventory().addItem(shortTerm());
+        Player player;
 
-        new Main(plugin, (Player) sender);
+        if (args.length == 1) {
+            if (!sender.hasPermission("loans.admin")) {
+                sender.sendMessage(Formatter.parse("&c&lOops! &7You do not have the permission &cloans.admin&7!"));
+                return true;
+            }
+            player = Bukkit.getPlayer(args[0]);
+        } else {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(Error.isConsole());
+                return true;
+            }
+            player = (Player) sender;
+        }
+
+        new Main(plugin, player);
         return true;
     }
-
-//    private ItemStack shortTerm() {
-//        ItemStack item = Texture.ONE.getHead();
-//        ItemMeta meta = item.getItemMeta();
-//
-//        meta.setDisplayName(Formatter.gradient("&lShort Term"));
-//
-//        meta.addEnchant(Enchantment.DURABILITY, 1, false);
-//        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-//
-//        List<String> lore = new ArrayList<String>();
-//        lore.add(Formatter.parse(""));
-//        lore.add(Formatter.parse("&fDeadline #005027&l» &724 hours (1 day)"));
-//        lore.add(Formatter.parse("&fPeriod #005027&l» &71 hour"));
-//        lore.add(Formatter.parse("&fInterest #005027&l» &70.4% Compound"));
-//        lore.add(Formatter.parse(""));
-//        lore.add(Formatter.parse("#00984b&lLMB &fto select this plan"));
-//        meta.setLore(lore);
-//
-//        NamespacedKey key = new NamespacedKey(plugin, "action");
-//        meta.getPersistentDataContainer().set(key, new ActionDataType(), Action.SHORT_TERM);
-//
-//        item.setItemMeta(meta);
-//
-//        return item;
-//    }
 }
