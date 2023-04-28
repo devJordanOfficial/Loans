@@ -49,15 +49,6 @@ public class ChatListener implements Listener {
                 Players.get(event.getPlayer()).setCache(amount);
                 ((NewLoan) plugin.user.get(event.getPlayer().getUniqueId())).update();
             }
-
-            if (plugin.user.get(event.getPlayer().getUniqueId()) instanceof Payment) {
-                PlayerData data = Players.get(event.getPlayer());
-                Payment paymentGUI = (Payment) plugin.user.get(event.getPlayer().getUniqueId());
-                if (data.getBalance() < amount) amount = data.getBalance();
-                if (0 > amount) amount = 0;
-                paymentGUI.setPayment(amount);
-                paymentGUI.update();
-            }
         }
         plugin.listen.remove(event.getPlayer().getUniqueId());
 

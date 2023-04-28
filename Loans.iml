@@ -33,6 +33,8 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.MilkBowl:VaultAPI:1.7.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.infamousgc:RankTree:1.1.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.arcaniax:HeadDatabase-API:1.3.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.Zrips:Jobs:4.17.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: net.luckperms:api:5.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.12.0" level="project" />
   </component>
 </module>

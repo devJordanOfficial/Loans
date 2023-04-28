@@ -1,6 +1,6 @@
 package com.infamousgc.loans.Data;
 
-public enum LoanType {
+public enum Plan {
     SHORT("Short Term (1 day)", 0.004, 1, 24),
     LONG("Long Term (3 days)", 0.01, 2, 72);
 
@@ -9,7 +9,7 @@ public enum LoanType {
     private final int period;
     private final int maxHours;
 
-    LoanType(String description, double rate, int period, int maxHours) {
+    Plan(String description, double rate, int period, int maxHours) {
         this.description = description;
         this.rate = rate;
         this.period = period;
@@ -36,10 +36,12 @@ public enum LoanType {
         return maxHours / period;
     }
 
-    public static LoanType valueOf(int ordinal) {
+    public static Plan valueOf(int ordinal) {
         if (ordinal == 0)
             return SHORT;
-        else
+        else if (ordinal == 1)
             return LONG;
+        else
+            return null;
     }
 }

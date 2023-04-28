@@ -107,7 +107,7 @@ public class NewLoan extends GUI {
     }
 
     private ItemStack loanInfo() {
-        LoanType plan = playerData.getPlanCache();
+        Plan plan = playerData.getPlanCache();
         double principal = playerData.getPrincipalCache();
 
         ItemStack item = Texture.MONEY_BAG.getHead();
@@ -146,7 +146,7 @@ public class NewLoan extends GUI {
 
     @Override
     protected void fillSpace() {
-        LoanType plan = playerData.getPlanCache();
+        Plan plan = playerData.getPlanCache();
         double principal = playerData.getPrincipalCache();
 
         ItemStack item = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);

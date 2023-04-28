@@ -10,8 +10,6 @@ public enum Action {
     LONG_TERM,
     PLAN_CONFIRM,
     PAY,
-    MAKE_PAYMENT,
-    CHANGE_AMOUNT,
-    MAX_AMOUNT,
-    CUSTOM_AMOUNT;
+    CONFIRM,
+    CANCEL;
 }

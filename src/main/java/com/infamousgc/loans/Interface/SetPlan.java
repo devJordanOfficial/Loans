@@ -47,11 +47,11 @@ public class SetPlan extends GUI {
     }
 
     private ItemStack shortTerm() {
-        LoanType plan = playerData.getPlanCache();
+        Plan plan = playerData.getPlanCache();
 
         ItemStack item;
 
-        if (plan == LoanType.SHORT) {
+        if (plan == Plan.SHORT) {
             item = Texture.GREEN_ONE.getHead();
         } else {
             item = Texture.GRAY_ONE.getHead();
@@ -79,11 +79,11 @@ public class SetPlan extends GUI {
     }
 
     private ItemStack longTerm() {
-        LoanType plan = playerData.getPlanCache();
+        Plan plan = playerData.getPlanCache();
 
         ItemStack item;
 
-        if (plan == LoanType.LONG) {
+        if (plan == Plan.LONG) {
             item = Texture.GREEN_THREE.getHead();
         } else {
             item = Texture.GRAY_THREE.getHead();
@@ -93,7 +93,7 @@ public class SetPlan extends GUI {
 
         meta.setDisplayName(Formatter.gradient("&lLong Term"));
 
-        if (plan == LoanType.LONG) {
+        if (plan == Plan.LONG) {
             meta.addEnchant(Enchantment.DURABILITY, 1, false);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
@@ -116,7 +116,7 @@ public class SetPlan extends GUI {
     }
 
     private ItemStack forecast() {
-        LoanType plan = playerData.getPlanCache();
+        Plan plan = playerData.getPlanCache();
         double principal = playerData.getPrincipalCache();
 
         ItemStack item = Texture.MONEY_BAG.getHead();
@@ -133,12 +133,12 @@ public class SetPlan extends GUI {
             lore.add(Formatter.parse("&7The following is a the predicted amount you will owe"));
             lore.add(Formatter.parse("&7after certain amounts of time."));
             lore.add(Formatter.parse(""));
-            if (plan == LoanType.SHORT) {
+            if (plan == Plan.SHORT) {
                 lore.add(Formatter.parse("&f8 Hours #005027&l» &7$" + forecast(principal, 8, 0.004, 1)));
                 lore.add(Formatter.parse("&f16 Hours #005027&l» &7$" + forecast(principal, 16, 0.004, 1)));
                 lore.add(Formatter.parse("&f24 Hours #005027&l» &7$" + forecast(principal, 24, 0.004, 1)));
             }
-            if (plan == LoanType.LONG) {
+            if (plan == Plan.LONG) {
                 lore.add(Formatter.parse("&f24 Hours #005027&l» &7$" + forecast(principal, 24, 0.01, 2)));
                 lore.add(Formatter.parse("&f48 Hours #005027&l» &7$" + forecast(principal, 48, 0.01, 2)));
                 lore.add(Formatter.parse("&f72 Hours #005027&l» &7$" + forecast(principal, 72, 0.01, 2)));

@@ -12,7 +12,9 @@ public enum Texture {
     GRAY_ONE("10350"),
     GRAY_THREE("10348"),
     GREEN_ONE("10242"),
-    GREEN_THREE("10240");
+    GREEN_THREE("10240"),
+    INFO("23223"),
+    WARNING("55993");
 
     private final String id;
 

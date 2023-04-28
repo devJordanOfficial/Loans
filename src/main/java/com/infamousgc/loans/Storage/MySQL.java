@@ -78,10 +78,11 @@ public class MySQL {
             connection.prepareStatement("CREATE TABLE IF NOT EXISTS loans_playerdata (" +
                     "ID CHAR(36) NOT NULL PRIMARY KEY, " +
                     "HAS_LOAN BOOLEAN, " +
-                    "PLAN BIT, " +
+                    "PLAN TINYINT, " +
                     "PRINCIPAL DOUBLE, " +
                     "CREATED_AT DATETIME, " +
-                    "BALANCE DOUBLE" +
+                    "BALANCE DOUBLE, " +
+                    "UPDATED BOOLEAN" +
                     ");").executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

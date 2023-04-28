@@ -6,7 +6,10 @@ import com.infamousgc.loans.Interface.Payment;
 import com.infamousgc.loans.Interface.SetPlan;
 import com.infamousgc.loans.Loans;
 import com.infamousgc.loans.Utilities.Formatter;
+import com.infamousgc.loans.Utilities.Logger;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +18,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 public class InterfaceListener implements Listener {
 
@@ -80,7 +82,7 @@ public class InterfaceListener implements Listener {
         // Select Short Term
         ////////////////////////////////
         if (container.get(key, new ActionDataType()) == Action.SHORT_TERM) {
-            Players.get(player).setCache(LoanType.SHORT);
+            Players.get(player).setCache(Plan.SHORT);
             ((SetPlan) plugin.user.get(player.getUniqueId())).update();
         }
 
@@ -88,7 +90,7 @@ public class InterfaceListener implements Listener {
         // Select Long Term
         ////////////////////////////////
         if (container.get(key, new ActionDataType()) == Action.LONG_TERM) {
-            Players.get(player).setCache(LoanType.LONG);
+            Players.get(player).setCache(Plan.LONG);
             ((SetPlan) plugin.user.get(player.getUniqueId())).update();
         }
 
@@ -108,6 +110,8 @@ public class InterfaceListener implements Listener {
             PlayerData data = Players.get(player);
             data.createLoan();
             player.closeInventory();
+            plugin.getEconomy().depositPlayer(player, data.getPrincipal());
+            player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.MASTER, 1, 1);
             player.sendMessage(Formatter.parse(Formatter.gradient(Formatter.prefix) + " &7Your loan of #008642$" +
                     Formatter.formatNumber(data.getPrincipal()) + " &7has been deposited into your account. You will " +
                     "accrue interest every #008642" + data.getPlan().getPeriod() + " Hour" +
@@ -123,52 +127,34 @@ public class InterfaceListener implements Listener {
         }
 
         ////////////////////////////////
-        // Add/Remove Payment Amount
+        // Confirm Payment
         ////////////////////////////////
-        NamespacedKey amountKey = new NamespacedKey(plugin, "amount");
-        if (container.has(amountKey, PersistentDataType.DOUBLE)) {
+        if (container.get(key, new ActionDataType()) == Action.CONFIRM) {
             PlayerData data = Players.get(player);
-            Payment paymentGUI = ((Payment) plugin.user.get(player.getUniqueId()));
-            double amount = paymentGUI.getPayment() + container.get(amountKey, PersistentDataType.DOUBLE);
-            if (data.getBalance() < amount) amount = data.getBalance();
-            if (0 > amount) amount = 0;
-            paymentGUI.setPayment(amount);
-            paymentGUI.update();
-        }
-
-        ////////////////////////////////
-        // Max Payment Amount
-        ////////////////////////////////
-        if (container.get(key, new ActionDataType()) == Action.MAX_AMOUNT) {
-            PlayerData data = Players.get(player);
-            Payment paymentGUI = ((Payment) plugin.user.get(player.getUniqueId()));
-            paymentGUI.setPayment(data.getBalance());
-            paymentGUI.update();
-        }
-
-        ////////////////////////////////
-        // Custom Payment Amount
-        ////////////////////////////////
-        if (container.get(key, new ActionDataType()) == Action.CUSTOM_AMOUNT) {
-            plugin.listen.add(player.getUniqueId());
-            saveCache();
             player.closeInventory();
-            player.sendMessage(Formatter.parse(Formatter.gradient(Formatter.prefix) + " &7Type " +
-                    "the amount you wish to pay back on your loan. Type #008642cancel &7to cancel."));
+            if (plugin.getEconomy().getBalance(player) < data.getBalance()) {
+                player.playSound(player, Sound.ENTITY_ITEM_BREAK, SoundCategory.MASTER, 1, 1);
+                player.sendMessage(Formatter.parse(Formatter.gradient(Formatter.prefix) + " &7You do not have &c$" +
+                        Formatter.formatNumber(data.getBalance()) + "&7! Your payment " +
+                        "has been &ccancelled&7."));
+            } else {
+                Logger.log(player.getName() + " has made a loan payment of $" + Formatter.formatNumber(data.getBalance()));
+                player.playSound(player, Sound.ENTITY_PLAYER_LEVELUP, SoundCategory.MASTER, 1, 1);
+                player.sendMessage(Formatter.parse(Formatter.gradient(Formatter.prefix) + " &7Your payment " +
+                        "has been &areceived&7. You are no longer in dept!"));
+                plugin.getEconomy().withdrawPlayer(player, data.getBalance());
+                data.pay();
+            }
         }
 
         ////////////////////////////////
-        // Make Payment (Finalize)
+        // Cancel Payment
         ////////////////////////////////
-        if (container.get(key, new ActionDataType()) == Action.MAKE_PAYMENT) {
-            PlayerData data = Players.get(player);
-            Payment paymentGUI = ((Payment) plugin.user.get(player.getUniqueId()));
-            data
+        if (container.get(key, new ActionDataType()) == Action.CANCEL) {
             player.closeInventory();
-            player.sendMessage(Formatter.parse(Formatter.gradient(Formatter.prefix) + " &7Your loan of #008642$" +
-                    Formatter.formatNumber(data.getPrincipal()) + " &7has been deposited into your account. You will " +
-                    "accrue interest every #008642" + data.getPlan().getPeriod() + " Hour" +
-                    (data.getPlan().getPeriod() == 1 ? "" : "s") + "&7."));
+            player.playSound(player, Sound.ENTITY_ITEM_BREAK, SoundCategory.MASTER, 1, 1);
+            player.sendMessage(Formatter.parse(Formatter.gradient(Formatter.prefix) + " &7Your payment " +
+                    "has been &ccancelled&7."));
         }
     }
 

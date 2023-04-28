@@ -1,6 +1,6 @@
 package com.infamousgc.loans.Storage;
 
-import com.infamousgc.loans.Data.LoanType;
+import com.infamousgc.loans.Data.Plan;
 import com.infamousgc.loans.Data.PlayerData;
 import com.infamousgc.loans.Data.Players;
 import com.infamousgc.loans.Loans;
@@ -32,16 +32,17 @@ public class Database extends MySQL {
         try {
 
             PreparedStatement statement = getConnection().prepareStatement("INSERT INTO loans_playerdata" +
-                    "(ID,HAS_LOAN,PLAN,PRINCIPAL,CREATED_AT,BALANCE) VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE " +
+                    "(ID,HAS_LOAN,PLAN,PRINCIPAL,CREATED_AT,BALANCE,UPDATED) VALUES (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE " +
                     "HAS_LOAN = VALUES(HAS_LOAN), PLAN = VALUES(PLAN), PRINCIPAL = VALUES(PRINCIPAL), " +
-                    "CREATED_AT = VALUES(CREATED_AT), BALANCE = VALUES(BALANCE)");
+                    "CREATED_AT = VALUES(CREATED_AT), BALANCE = VALUES(BALANCE), UPDATED = VALUES(UPDATED)");
 
             statement.setString(1, uuid.toString());
             statement.setBoolean(2, data.hasLoan());
-            statement.setByte(3, (byte) data.getPlan().ordinal());
+            statement.setByte(3, (data.getPlan() == null ? (byte) 3 : (byte) data.getPlan().ordinal()));
             statement.setDouble(4, data.getPrincipal());
             statement.setObject(5, data.getCreatedAt());
             statement.setDouble(6, data.getBalance());
+            statement.setBoolean(7, data.isUpToDate());
             statement.executeUpdate();
             statement.close();
 
@@ -61,7 +62,7 @@ public class Database extends MySQL {
             while(result.next()) {
                 UUID owner = UUID.fromString(result.getString("ID"));
                 boolean hasLoan = result.getBoolean("HAS_LOAN");
-                LoanType plan = LoanType.valueOf(result.getByte("PLAN"));
+                Plan plan = Plan.valueOf(result.getByte("PLAN"));
                 double principal = result.getDouble("PRINCIPAL");
                 LocalDateTime createdAt = result.getObject("CREATED_AT", LocalDateTime.class);
                 double balance = result.getDouble("BALANCE");

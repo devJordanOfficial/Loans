@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class Formatter {
 
     public static final String prefix = "&lLOANS »";
+    public static final String reminder = "&lREMINDER »";
 
     public static String parse(String message) {
         final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
